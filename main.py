@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QPushButton,
     QListWidget,
+    QTimeEdit,
+    QMessageBox,
 )
 from PyQt5.QtCore import QTimer, QTime, Qt
 
@@ -42,7 +44,7 @@ class Clock(QMainWindow):
 
         self.time_label = QLabel(self)
         self.time_label.setAlignment(Qt.AlignCenter)
-        self.time_label.setStyleSheet("font-size: 120px")
+        self.time_label.setStyleSheet("font-size: 135px")
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_time)
@@ -121,6 +123,21 @@ class Clock(QMainWindow):
         self.alarm_label.setAlignment(Qt.AlignCenter)
         self.alarm_layout.addWidget(self.alarm_label)
 
+        self.alarm_time = None
+        self.alarm_edit = QTimeEdit()
+        self.alarm_edit.setDisplayFormat('HH:mm:ss')
+        self.set_button = QPushButton("Set")
+        self.stop_button = QPushButton("Stop")
+
+        self.set_button.clicked.connect(self.set_alarm)
+        self.stop_button.clicked.connect(self.set_alarm)
+
+    def set_alarm(self):
+        ...
+
+    def stop_alarm(self):
+        ...
+
     def start(self):
         self.stopwatch_timer.start(10)
 
@@ -132,7 +149,7 @@ class Clock(QMainWindow):
             return
         self.lap_count += 1
         lap_time = self.format_time(self.time)
-        self.lap_list.insertItem(0, f"Lap {self.lap_count}: {lap_time}")
+        self.lap_list.addItem(f"{self.lap_count}      : {lap_time}")
 
     def reset(self):
         self.stopwatch_timer.stop()
